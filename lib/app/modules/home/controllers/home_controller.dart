@@ -1,11 +1,13 @@
+import 'package:campuss_life/app/data/models/userModel.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
+  final data = Get.arguments;
 
-  final count = 0.obs;
   @override
   void onInit() {
+    // print(argumentData);
+    // userModel = UserModel.fromJson(argumentData);
     super.onInit();
   }
 
@@ -18,6 +20,4 @@ class HomeController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 }
