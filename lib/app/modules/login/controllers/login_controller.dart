@@ -14,7 +14,7 @@ class LoginController extends GetxController {
 
   @override
   void onInit() {
-    // redirect();
+    checkID();
     super.onInit();
   }
 
@@ -30,32 +30,19 @@ class LoginController extends GetxController {
     super.onClose();
   }
 
-  void redirect() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey("userID")) {
-      Get.offNamed(Routes.HOME, arguments: prefs.get("userID"));
-    }
-  }
-
   void login() async {
     UserService service = UserService();
     try {
       ButtonTxt.value = 'Loading...';
       var response =
           await service.login(nipdController.text, passController.text);
-      if (response.statusCode == 200) {
+      if (response.runtimeType != String) {
         ButtonTxt.value = 'Sign In Now';
-        if (response.data['error'] != null) {
-          isNipdValid.value = false;
-          isPassValid.value = false;
-          errorTxt.value = response.data['error']
-              .toString()
-              .replaceAll('NIPD', "Nomor Induk");
-        } else {
-          service.setUserData(response.data['id'], response.data['nama'],
-              response.data['email']);
-          Get.offAllNamed(Routes.HOME);
-        }
+        Get.offAllNamed(Routes.HOME);
+      } else {
+        isNipdValid.value = false;
+        isPassValid.value = false;
+        errorTxt.value = response;
       }
     } catch (e) {
       ButtonTxt.value = 'Sign In Now';
@@ -67,5 +54,13 @@ class LoginController extends GetxController {
     isNipdValid.value = nipdController.text.isNotEmpty;
     isPassValid.value = passController.text.isNotEmpty;
     return (isNipdValid.value && isPassValid.value);
+  }
+
+  Future<void> checkID() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var id = prefs.getString('userID');
+    if (id != null) {
+      Get.offAllNamed(Routes.HOME);
+    }
   }
 }

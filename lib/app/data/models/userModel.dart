@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 class RxUserModel {
@@ -7,7 +8,6 @@ class RxUserModel {
   final pt = ''.obs;
   final prodi = ''.obs;
   final email = ''.obs;
-  final password = ''.obs;
 }
 
 class UserModel {
@@ -33,9 +33,6 @@ class UserModel {
   get email => rx.email.value;
   set email(value) => rx.email.value = value;
 
-  get password => rx.password.value;
-  set password(value) => rx.password.value = value;
-
   UserModel.fromJson(Map<String, dynamic> json) {
     this.id = json['id'];
     this.nama = json['Nama'];
@@ -51,7 +48,14 @@ class UserModel {
     data['PT'] = this.pt;
     data['Prodi'] = this.prodi;
     data['Email'] = this.email;
-    data['Password'] = this.password;
     return data;
+  }
+
+  UserModel.fromSnapshot({required DocumentSnapshot documentSnapshot}) {
+    this.id = documentSnapshot['id'];
+    this.nama = documentSnapshot['Nama'];
+    this.nipd = documentSnapshot['NIPD'];
+    this.pt = documentSnapshot['PT'];
+    this.prodi = documentSnapshot['Prodi'];
   }
 }

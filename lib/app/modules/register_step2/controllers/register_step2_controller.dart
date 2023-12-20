@@ -9,6 +9,7 @@ class RegisterStep2Controller extends GetxController {
   UserModel userModel = UserModel();
   RxString ButtonTxt = 'Daftar'.obs;
   RxString NipdError = ''.obs;
+  RxString ErrorTxt = ''.obs;
 
   TextEditingController namaController = TextEditingController();
   TextEditingController nipdController = TextEditingController();
@@ -22,6 +23,7 @@ class RegisterStep2Controller extends GetxController {
   final isPassValid = true.obs;
   final isConfPassValid = true.obs;
   final isNipdValid = true.obs;
+  final isAppValid = true.obs;
   final isUnivValid = true.obs;
 
   final count = 0.obs;
@@ -63,28 +65,23 @@ class RegisterStep2Controller extends GetxController {
     userModel.pt = univController.text;
     userModel.prodi = prodiController.text;
     userModel.email = emailController.text;
-    userModel.password = passController.text;
-    Map<String, dynamic> data = userModel.toJson();
     try {
       ButtonTxt.value = 'Loading...';
-      print(data);
-      var response = await service.createUser(data);
-      if (response.statusCode == 200) {
-        ButtonTxt.value = 'Daftar';
-        if (response.data['error'] != null) {
-          isNipdValid.value = false;
-          NipdError.value = response.data['error']
-              .toString()
-              .replaceAll('NIPD', "Nomor Induk");
-        } else {
-          service.setUserData(
-              response.data['id'], userModel.nama, userModel.email);
-          Get.offAllNamed(Routes.HOME);
-        }
+      print(userModel.toJson());
+      var res = await service.createUser(userModel, passController.text);
+
+      if (res.runtimeType == String) {
+        throw Exception(res);
       }
+
+      Future.delayed(Duration(milliseconds: 2000), () {
+        ButtonTxt.value = 'Daftar';
+        Get.offAllNamed(Routes.HOME);
+      });
     } catch (e) {
       ButtonTxt.value = 'Daftar';
-      print(e);
+      isAppValid.value = false;
+      ErrorTxt.value = e.toString();
     }
   }
 }

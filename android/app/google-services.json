@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "38953277935",
+    "firebase_url": "https://campuife-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "campuife",
+    "storage_bucket": "campuife.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:38953277935:android:34f961488819f344b23e1a",
+        "android_client_info": {
+          "package_name": "com.example.campuss_life"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqF6WUtMIuJ5DJNBgJePokunOZnenVb68"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -102,7 +102,7 @@ class RegisterStep2View extends GetView<RegisterStep2Controller> {
                               borderRadius: BorderRadius.circular(16),
                             ),
                             errorText: controller.isNipdValid.value
-                                ? ""
+                                ? null
                                 : controller.NipdError.value,
                           ),
                         ),
@@ -266,8 +266,10 @@ class RegisterStep2View extends GetView<RegisterStep2Controller> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              controller.isNipdValid.value
-                                  ? ""
+                              controller.isNipdValid.value == ''
+                                  ? (controller.isAppValid.value == ''
+                                      ? ''
+                                      : controller.ErrorTxt.value)
                                   : controller.NipdError.value,
                               style: TextStyle(
                                 color: Colors.red,

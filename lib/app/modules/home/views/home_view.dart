@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -20,7 +21,7 @@ class HomeView extends GetView<HomeController> {
               'HomeView is working',
               style: TextStyle(fontSize: 20),
             ),
-            Text(controller.data['id']),
+            // Text(controller.data['id']),
             // Text(controller.data['Nama']),
             // Text(controller.data['NIPD']),
             // Text(controller.data['PT']),
@@ -28,8 +29,17 @@ class HomeView extends GetView<HomeController> {
             // Text(controller.data['Email']),
             // Text(controller.data['Password']),
             TextButton(
-              onPressed: () => Get.offNamed('/login'),
-              child: Text('Login'),
+              onPressed: () async {
+                Get.offNamed('/login');
+              },
+              child: Text('Back to Login (tanpa logout)'),
+            ),
+            TextButton(
+              onPressed: () async {
+                controller.logout();
+                Get.offNamed('/login');
+              },
+              child: Text('Logout'),
             ),
           ],
         ),
