@@ -22,34 +22,6 @@ class FirestoreDb {
       DocumentSnapshot snapshot = await docRef.get();
       var data = snapshot.data();
       return {'data': data, 'cred': userCredential.user};
-      // QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-      //     .collection('users')
-      //     .where('username', isEqualTo: username)
-      //     .get();
-
-      // if (querySnapshot.docs.isNotEmpty) {
-      //   UserModel userDoc =
-      //       UserModel.fromSnapshot(documentSnapshot: querySnapshot.docs[0]);
-      //   String? storedHashedPassword = userDoc.password;
-      //   String hashedPassword =
-      //       sha256.convert(utf8.encode(password)).toString();
-
-      //   var cred_email = userDoc.nipd.toString() + '@campuife.com';
-      //   print(cred_email);
-      //   if (storedHashedPassword == hashedPassword) {
-      //     UserCredential userCredential =
-      //         await FirebaseAuth.instance.signInWithEmailAndPassword(
-      //       email: cred_email.trim(),
-      //       password: hashedPassword,
-      //     );
-      //     return {'data': userDoc, 'cred': userCredential.user};
-      //   } else {
-      //     print('Invalid password');
-      //   }
-      // } else {
-      //   print('User not found');
-      // }
-      // return null;
     } catch (e) {
       return "Nomor Induk atau Password salah";
     }
@@ -58,7 +30,7 @@ class FirestoreDb {
   static registerUser(UserModel user, String password) async {
     try {
       var cred_email = user.nipd.toString() + '@campuife.com';
-      // Register the user in Firebase Authentication
+
       print("cred_email : " + cred_email);
       final UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -74,11 +46,12 @@ class FirestoreDb {
         'NIPD': user.nipd,
         'PT': user.pt,
         'Prodi': user.prodi,
+        'Email': user.email,
       });
 
       return {
         'id': userCredential.user?.uid,
-        'email': userCredential.user?.email,
+        'email': user.email,
         'nama': user.nama
       };
     } catch (e) {
